@@ -1,24 +1,44 @@
 import 'package:flutter/material.dart';
 
-class CartProvider with ChangeNotifier {
-  // Lista de totais por destino
-  List<int> _totais = [];
+class CartItem {
+  final String nome;
+  final String imagePath;
+  final int valord;
+  final int valorp;
+  final int nDiarias;
+  final int nPessoas;
+  final int total;
 
-  // Retorna os totais
-  List<int> get totais => _totais;
+  CartItem({
+    required this.nome,
+    required this.imagePath,
+    required this.valord,
+    required this.valorp,
+    required this.nDiarias,
+    required this.nPessoas,
+  }) : total = (valord * nDiarias) + (valorp * nPessoas);
+}
 
-  // Adiciona um destino ao carrinho
-  void adicionarTotal(int total) {
-    _totais.add(total);
+class CartProvider extends ChangeNotifier {
+  final List<CartItem> _items = [];
+
+  List<CartItem> get items => _items;
+
+  void adicionarItem(CartItem item) {
+    _items.add(item);
     notifyListeners();
   }
 
-  // Limpa o carrinho
   void limparCarrinho() {
-    _totais.clear();
+    _items.clear();
     notifyListeners();
   }
 
-  // Retorna o total acumulado
-  int get totalAcumulado => _totais.fold(0, (prev, element) => prev + element);
+  int get totalAcumulado {
+    int total = 0;
+    for (var item in _items) {
+      total += item.total;
+    }
+    return total;
+  }
 }

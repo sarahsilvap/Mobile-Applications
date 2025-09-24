@@ -37,21 +37,20 @@ class CheckoutScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Column(
               children: List.generate(
-                cartProvider.totais.length,
+                cartProvider.items.length,
                 (index) {
-                  final total = cartProvider.totais[index];
+                  final item = cartProvider.items[index];
                   return Card(
                     child: ListTile(
                       leading: Image.asset(
-                        'assets/imagens/default.png', // imagem padrão ou do destino
+                        item.imagePath,
                         width: 48,
                         height: 48,
                         fit: BoxFit.cover,
                       ),
-                      title: Text("Destino ${index + 1}"),
-                      subtitle: const Text(
-                          "Diárias e pessoas selecionadas"), // aqui você pode detalhar se tiver os dados
-                      trailing: Text("R\$ $total"),
+                      title: Text(item.nome),
+                      subtitle: Text("${item.nDiarias} diárias, ${item.nPessoas} pessoas"),
+                      trailing: Text("R\$ ${item.total}"),
                     ),
                   );
                 },
@@ -60,8 +59,7 @@ class CheckoutScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               "Total: R\$${cartProvider.totalAcumulado}",
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.end,
             ),
             const SizedBox(height: 12),

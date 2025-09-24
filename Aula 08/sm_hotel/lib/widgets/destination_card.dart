@@ -23,61 +23,50 @@ class Destino extends StatefulWidget {
 class _DestinoState extends State<Destino> {
   int nDiarias = 0;
   int nPessoas = 0;
-  int totalLocal = 0; // Total apenas deste destino
 
-  void incrementarDiarias() {
-    setState(() {
-      nDiarias++;
-    });
-  }
+  void incrementarDiarias() => setState(() => nDiarias++);
+  void decrementarDiarias() => setState(() { if(nDiarias>0) nDiarias--; });
 
-  void decrementarDiarias() {
-    setState(() {
-      if (nDiarias > 0) nDiarias--;
-    });
-  }
+  void incrementarPessoas() => setState(() => nPessoas++);
+  void decrementarPessoas() => setState(() { if(nPessoas>0) nPessoas--; });
 
-  void incrementarPessoas() {
-    setState(() {
-      nPessoas++;
-    });
-  }
-
-  void decrementarPessoas() {
-    setState(() {
-      if (nPessoas > 0) nPessoas--;
-    });
-  }
-
-  void calcularTotal() {
-    setState(() {
-      totalLocal = (nDiarias * widget.valord) + (nPessoas * widget.valorp);
-    });
-  }
+  int get total => (nDiarias * widget.valord) + (nPessoas * widget.valorp);
 
   void limparCampos() {
     setState(() {
       nDiarias = 0;
       nPessoas = 0;
-      totalLocal = 0;
     });
   }
 
   void adicionarAoCarrinho() {
-    if (totalLocal > 0) {
-      Provider.of<CartProvider>(context, listen: false).adicionarTotal(totalLocal);
+    if (nDiarias == 0 && nPessoas == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("${widget.nome} adicionado ao carrinho!")),
+        const SnackBar(content: Text("Escolha diárias ou pessoas antes de adicionar!")),
       );
-      limparCampos();
+      return;
     }
+    Provider.of<CartProvider>(context, listen: false).adicionarItem(
+      CartItem(
+        nome: widget.nome,
+        imagePath: widget.imagePath,
+        valord: widget.valord,
+        valorp: widget.valorp,
+        nDiarias: nDiarias,
+        nPessoas: nPessoas,
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Destino adicionado ao carrinho!")),
+    );
+    limparCampos();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 393,
-      height: 250,
+      width: double.infinity,
+      height: 280,
       margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -104,7 +93,6 @@ class _DestinoState extends State<Destino> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Diárias
                     Row(
                       children: [
                         const Text("Diárias: ", style: TextStyle(color: Colors.white)),
@@ -119,7 +107,6 @@ class _DestinoState extends State<Destino> {
                         ),
                       ],
                     ),
-                    // Pessoas
                     Row(
                       children: [
                         const Text("Pessoas: ", style: TextStyle(color: Colors.white)),
@@ -141,22 +128,12 @@ class _DestinoState extends State<Destino> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: calcularTotal,
-                      child: const Text("Calcular"),
+                      onPressed: adicionarAoCarrinho,
+                      child: const Text("Adicionar ao Carrinho"),
                     ),
-                    ElevatedButton(
-                      onPressed: limparCampos,
-                      child: const Text("Limpar"),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-                    ),
-                    if (totalLocal > 0)
-                      ElevatedButton(
-                        onPressed: adicionarAoCarrinho,
-                        child: const Text("Adicionar ao Carrinho"),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                      ),
-                    Text("Total: R\$ $totalLocal",
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    Text("Total: R\$ $total",
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ],
