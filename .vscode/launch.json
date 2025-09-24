@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "app_aula_02",
+            "cwd": "Aula 02\\app_aula_02",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "app_aula_02 (profile mode)",
+            "cwd": "Aula 02\\app_aula_02",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "app_aula_02 (release mode)",
+            "cwd": "Aula 02\\app_aula_02",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "sm_hotel",
+            "cwd": "Aula 08\\sm_hotel",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "sm_hotel (profile mode)",
+            "cwd": "Aula 08\\sm_hotel",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "sm_hotel (release mode)",
+            "cwd": "Aula 08\\sm_hotel",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

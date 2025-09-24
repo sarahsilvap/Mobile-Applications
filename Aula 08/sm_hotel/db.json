@@ -1,0 +1,18 @@
+{
+  "usuario": [
+    { "id": 1, "email": "teste@ex.com", "password": "1234", "name": "Teste" }
+  ],
+  "destinos": [
+  { "id": 1, "name": "Angra dos Reis", "image": "assets/images/angra.jpg", "valord": 384, "valorp": 70 },
+  { "id": 2, "name": "Jericoacoara", "image": "assets/images/jericoacoara.jpg", "valord": 571, "valorp": 75 },
+  { "id": 3, "name": "Arraial do Cabo", "image": "assets/images/arraial.jpg", "valord": 534, "valorp": 65 },
+  { "id": 4, "name": "Florianópolis", "image": "assets/images/florianopolis.jpg", "valord": 348, "valorp": 85 },
+  { "id": 5, "name": "Madri", "image": "assets/images/madri.jpg", "valord": 401, "valorp": 85 },
+  { "id": 6, "name": "Paris", "image": "assets/images/paris.jpg", "valord": 546, "valorp": 95 },
+  { "id": 7, "name": "Orlando", "image": "assets/images/orlando.jpg", "valord": 616, "valorp": 105 },
+  { "id": 8, "name": "Las Vegas", "image": "assets/images/lasvegas.jpg", "valord": 504, "valorp": 110 },
+  { "id": 9, "name": "Roma", "image": "assets/images/roma.jpg", "valord": 478, "valorp": 85 },
+  { "id": 10, "name": "Chile", "image": "assets/images/chile.jpg", "valord": 446, "valorp": 95 }
+]
+
+}
