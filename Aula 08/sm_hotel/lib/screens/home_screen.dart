@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/Destination.dart';
 import '../services/api_service.dart';
+import '../widgets/destination_card.dart';
+import '../providers/cart_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,70 +23,57 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Destinos"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              // Checkout geral
-              Navigator.pushNamed(context, '/checkout');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              // Logout -> volta para login
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ],
-      ),
-      body: FutureBuilder<List<Destination>>(
-        future: _futureDestinos,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Erro: ${snapshot.error}"));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Nenhum destino encontrado."));
-          }
+    return ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("S&M Hotel"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                // Checkout geral
+                Navigator.pushNamed(context, '/checkout');
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                // Logout -> volta para login
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+            ),
+          ],
+        ),
+        body: FutureBuilder<List<Destination>>(
+          future: _futureDestinos,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Erro: ${snapshot.error}"));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text("Nenhum destino encontrado."));
+            }
 
-          final destinos = snapshot.data!;
+            final destinos = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: destinos.length,
-            itemBuilder: (context, index) {
-              final destino = destinos[index];
-              return Card(
-                margin: const EdgeInsets.all(8),
-                child: ListTile(
-                  leading: Image.asset(
-                    destino.image,
-                    width: 60,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(destino.name),
-                  subtitle: Text(
-                      "Diária: R\$${destino.valord.toStringAsFixed(2)} | Por pessoa: R\$${destino.valorp.toStringAsFixed(2)}"),
-                  trailing: ElevatedButton(
-                    child: const Text("Comprar"),
-                    onPressed: () {
-                      // Passa destino selecionado para Checkout
-                      Navigator.pushNamed(
-                        context,
-                        '/checkout',
-                        arguments: destino,
-                      );
-                    },
-                  ),
-                ),
-              );
-            },
-          );
-        },
+            return ListView.builder(
+              itemCount: destinos.length,
+              itemBuilder: (context, index) {
+                final destino = destinos[index];
+
+                // Substituímos o ListTile pelo widget Destino, que já contém os botões +, calcular e limpar
+                return Destino(
+                  nome: destino.name,
+                  imagePath: destino.image,
+                  valord: destino.valord.toInt(),
+                  valorp: destino.valorp.toInt(),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
