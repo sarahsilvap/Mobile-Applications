@@ -13,13 +13,14 @@ class Destination {
     required this.valorp,
   });
 
-  factory Destination.fromJson(Map<String, dynamic> json) {
+    factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
-      id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
-      image: json['image'] as String,
-      valord: (json['valord'] as num).toDouble(),
-      valorp: (json['valorp'] as num).toDouble(),
+      id: int.tryParse(json['id'].toString()) ?? 0,
+      name: json['name'].toString(),
+      image: json['image'].toString(),
+      valord: double.tryParse(json['valord'].toString()) ?? 0.0,
+      valorp: double.tryParse(json['valorp'].toString()) ?? 0.0,
     );
   }
 }
+
