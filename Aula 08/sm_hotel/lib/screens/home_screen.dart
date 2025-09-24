@@ -5,14 +5,14 @@ import '../services/api_service.dart';
 import '../widgets/destination_card.dart';
 import '../providers/cart_provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Destination>> _futureDestinos;
 
   @override
